@@ -1,698 +1,2357 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>F. Tots Engineers – Electrical Power Engineering</title>
+    <title>BigVoltz - The Ultimate Electrical Engineering Resource</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
-        :root {
-            /* PREMIUM PALETTE - Scandinavian + Swiss Sophistication */
-            --bg-color: #FAFAF8; /* Warmer paper white */
-            --bg-secondary: #F5F5F2; /* Subtle variation */
-            --text-color: #1a1a1a; /* Rich black */
-            --text-secondary: #4a4a4a; /* Medium grey */
-            --accent-color: #B87333; /* Deep copper - electrical sophistication */
-            --accent-dark: #8B5A2B; /* Darker copper */
-            --line-color: #d8d8d5; /* Refined divider */
-            --line-accent: #c4a77d; /* Subtle copper tint */
-            --padding: 10vw;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+        
+        * {
             font-family: 'Inter', sans-serif;
-            font-weight: 300;
-            line-height: 1.85;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* TYPOGRAPHY HIERARCHY */
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 400;
-            color: #000;
-            letter-spacing: -0.01em;
-        }
-
-        .technical-font {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--accent-color);
-        }
-
-        /* HEADER - Refined Fixed Navigation */
-        header {
-            padding: 40px var(--padding);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: rgba(250, 250, 248, 0.98);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            border-bottom: 1px solid transparent;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        header.scrolled { 
-            border-bottom: 1px solid var(--line-color);
-            padding: 25px var(--padding);
+        code, pre {
+            font-family: 'JetBrains Mono', monospace !important;
         }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            transition: opacity 0.3s;
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
-
-        .logo:hover { opacity: 0.7; }
-
-        /* NAVIGATION */
-        nav ul {
-            display: flex;
-            gap: 35px;
-            list-style: none;
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 0.85rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            transition: color 0.3s ease;
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .slide-in-right {
+            animation: slideInRight 0.3s ease-out;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        
+        /* Premium Gradients */
+        .gradient-border {
             position: relative;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         }
-
-        nav a::after {
+        .gradient-border::before {
             content: '';
             position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--accent-color);
-            transition: width 0.3s ease;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
         }
-
-        nav a:hover::after { width: 100%; }
-        nav a:hover { color: var(--accent-color); }
-
-        /* HERO - Elevated Presence */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 var(--padding);
-            position: relative;
-        }
-
-        .hero h1 {
-            font-size: clamp(3.5rem, 7vw, 6rem);
-            line-height: 1.05;
-            margin-bottom: 30px;
-            font-weight: 400;
-        }
-
-        .hero h1 span {
-            font-style: italic;
-            display: block;
-            font-size: 0.55em;
-            margin-top: 15px;
-            color: var(--accent-color);
-            font-weight: 400;
-        }
-
-        .hero-divider {
-            width: 1px;
-            height: 80px;
-            background: linear-gradient(to bottom, transparent, var(--accent-color), transparent);
-            margin: 50px auto;
-        }
-
-        .hero p {
-            max-width: 580px;
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            font-weight: 300;
-        }
-
-        /* SECTIONS */
-        section {
-            padding: 120px var(--padding);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 90px;
-            border-bottom: 1px solid var(--line-color);
-            padding-bottom: 25px;
-        }
-
-        .section-header h2 { 
-            font-size: 2.8rem;
-            font-weight: 400;
-        }
-
-        /* SERVICES GRID - Enhanced Layout */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 70px;
-        }
-
-        .service-item {
-            transition: transform 0.3s ease;
-        }
-
-        .service-item:hover {
-            transform: translateY(-4px);
-        }
-
-        .service-item .technical-font {
-            display: block;
-            margin-bottom: 12px;
-            color: var(--accent-color);
-        }
-
-        .service-item h3 {
-            font-size: 1.65rem;
-            margin-bottom: 18px;
-            margin-top: 8px;
-            font-weight: 400;
-        }
-
-        .service-item p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
+        
+        /* Markdown Enhanced Styling */
+        .markdown-content {
             line-height: 1.8;
         }
-
-        /* CREDENTIALS SECTION */
-        .credentials {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-color) 100%);
-            padding: 100px var(--padding);
+        .markdown-content h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
         }
-
-        .credentials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 50px;
-            margin-top: 60px;
+        .markdown-content h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #1e293b;
         }
-
-        .credential-item {
-            text-align: center;
-            padding: 30px;
+        .markdown-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
         }
-
-        .credential-item .technical-font {
-            display: block;
-            margin-bottom: 15px;
+        .markdown-content h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
         }
-
-        .credential-item h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--text-color);
+        .markdown-content p {
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 1.25rem;
         }
-
-        .credential-item p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
+        .markdown-content ul, .markdown-content ol {
+            color: #94a3b8;
+            margin-left: 1.5rem;
+            margin-bottom: 1.25rem;
         }
-
-        /* ABOUT SECTION */
-        .about-content {
-            max-width: 750px;
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
         }
-
-        .about-lead {
-            font-size: 1.35rem;
-            margin-bottom: 35px;
-            color: var(--accent-dark);
-            font-weight: 400;
-            line-height: 1.6;
+        .markdown-content ul li::marker {
+            color: #3b82f6;
         }
-
-        .about-text {
-            font-size: 1rem;
-            line-height: 1.9;
-            color: var(--text-secondary);
+        .markdown-content strong {
+            color: #e2e8f0;
+            font-weight: 600;
         }
-
-        /* CONTACT - Premium Touch */
-        .contact-section {
-            text-align: center;
-            padding: 160px var(--padding);
-            background: linear-gradient(to bottom, var(--bg-color) 0%, var(--bg-secondary) 100%);
+        .markdown-content code {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #60a5fa;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            border: 1px solid #334155;
         }
-
-        .contact-link {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.2rem, 4.5vw, 4rem);
-            color: var(--accent-dark);
-            text-decoration: none;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-            display: inline-block;
+        .markdown-content pre {
+            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            border: 1px solid #1e293b;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
         }
-
-        .contact-link:hover {
-            border-bottom: 2px solid var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .contact-details {
-            margin-top: 60px;
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            font-size: 0.95rem;
-        }
-
-        .contact-detail-item .technical-font {
-            display: block;
-            margin-bottom: 12px;
-        }
-
-        /* LANGUAGE SWITCHER - Refined */
-        .lang-switch {
-            display: flex;
-            gap: 3px;
-            background-color: rgba(184, 115, 51, 0.05);
-            border-radius: 4px;
-            padding: 4px;
-        }
-
-        .lang-switch button {
-            background: none;
+        .markdown-content pre code {
+            background: transparent;
+            padding: 0;
             border: none;
-            cursor: pointer;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            padding: 6px 12px;
-            border-radius: 3px;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+        .markdown-content blockquote {
+            border-left: 4px solid #3b82f6;
+            background: linear-gradient(90deg, #1e293b 0%, transparent 100%);
+            padding: 1rem 1.5rem;
+            color: #cbd5e1;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+        .markdown-content thead {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        .markdown-content th {
+            color: #e2e8f0;
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid #334155;
+            font-weight: 600;
+        }
+        .markdown-content td {
+            color: #94a3b8;
+            padding: 0.875rem 1rem;
+            border: 1px solid #334155;
+        }
+        .markdown-content tr:hover {
+            background: #1e293b;
+        }
+        .markdown-content a {
+            color: #60a5fa;
+            text-decoration: underline;
+            text-decoration-color: #3b82f6;
+            text-underline-offset: 2px;
+            transition: all 0.2s;
+        }
+        .markdown-content a:hover {
+            color: #93c5fd;
+            text-decoration-color: #60a5fa;
         }
         
-        .lang-switch button:hover {
-            background-color: rgba(184, 115, 51, 0.08);
-            color: var(--accent-color);
+        /* Card Hover Effects */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
         }
         
-        .lang-switch button.active { 
-            background-color: var(--accent-color);
-            color: white;
+        /* Glow Effects */
+        .glow-blue {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
         }
-
-        /* FOOTER */
-        .footer-note {
-            margin-top: 120px;
-            font-size: 0.8rem;
-            color: #999;
-            letter-spacing: 0.05em;
+        .glow-purple {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
         }
-
-        /* MOBILE RESPONSIVE */
-        @media (max-width: 768px) {
-            :root { --padding: 6vw; }
-            
-            header { 
-                padding: 20px var(--padding);
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-            
-            header.scrolled { padding: 15px var(--padding); }
-            
-            nav { 
-                order: 3;
-                width: 100%;
-                margin-top: 15px;
-            }
-            
-            nav ul { 
-                gap: 20px;
-                justify-content: center;
-            }
-            
-            .hero h1 { font-size: 2.8rem; }
-            .hero-divider { height: 60px; margin: 35px auto; }
-            
-            .section-header { 
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .section-header h2 { font-size: 2.2rem; }
-            
-            .services-grid { 
-                grid-template-columns: 1fr;
-                gap: 50px;
-            }
-            
-            .credentials-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            
-            .contact-details { 
-                flex-direction: column;
-                gap: 30px;
-            }
-        }
-
-        /* SMOOTH SCROLL */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* SELECTION COLOR */
-        ::selection {
-            background-color: rgba(184, 115, 51, 0.2);
-            color: var(--text-color);
+        .glow-green {
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
         }
     </style>
 </head>
-<body>
-
-    <header id="header">
-        <div class="logo">F. Tots Engineers</div>
+<body class="bg-slate-950 text-slate-200 antialiased overflow-hidden">
+    
+    <div id="app" class="flex h-screen w-screen overflow-hidden">
         
-        <nav>
-            <ul>
-                <li><a href="#services" data-i18n="nav_services">Ydelser</a></li>
-                <li><a href="#credentials" data-i18n="nav_credentials">Kvalifikationer</a></li>
-                <li><a href="#about" data-i18n="nav_about">Profil</a></li>
-                <li><a href="#contact" data-i18n="nav_contact">Kontakt</a></li>
-            </ul>
-        </nav>
-
-        <div class="lang-switch">
-            <button class="lang-btn active" onclick="setLanguage('da')">DA</button>
-            <button class="lang-btn" onclick="setLanguage('en')">EN</button>
-            <button class="lang-btn" onclick="setLanguage('de')">DE</button>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="technical-font">EST. 2026 — KØBENHAVN</div>
-        <h1>
-            F. Tots Engineers
-            <span data-i18n="hero_subtitle">Power Engineering & Consulting</span>
-        </h1>
-        <div class="hero-divider"></div>
-        <p data-i18n="hero_text">
-            Teknisk rådgivning og projektering inden for elenergi-systemer. 
-            Vi leverer beregninger, dimensionering og dokumentation i overensstemmelse med DS/EN og IEC standarder.
-        </p>
-    </section>
-
-    <section id="services">
-        <div class="section-header">
-            <h2 data-i18n="services_title">Ekspertise</h2>
-            <span class="technical-font">01 — SERVICES</span>
-        </div>
-        
-        <div class="services-grid">
-            <div class="service-item">
-                <span class="technical-font">01.01</span>
-                <h3 data-i18n="serv1_title">Effektsystemanalyse</h3>
-                <p data-i18n="serv1_desc">Lastberegninger, kortslutningsanalyser og spændingsfald. Dimensionering af kabler, transformere og beskyttelsesudstyr efter DS/EN standarder.</p>
-            </div>
+        <!-- Enhanced Sidebar -->
+        <aside id="sidebar" class="w-80 bg-gradient-to-b from-slate-900 to-slate-950 border-r border-slate-800 flex flex-col h-full transform transition-transform duration-300 ease-in-out fixed md:relative z-20 -translate-x-full md:translate-x-0 shadow-2xl">
             
-            <div class="service-item">
-                <span class="technical-font">01.02</span>
-                <h3 data-i18n="serv2_title">Elinstallationsprojektering</h3>
-                <p data-i18n="serv2_desc">CAD-tegning af tavler og installationer. Fra enfamiliehuse til industrianlæg — med både teoretisk og praktisk erfaring fra faget.</p>
+            <!-- Premium Logo -->
+            <div class="h-20 border-b border-slate-800 flex items-center justify-between px-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
+                <div class="absolute inset-0 bg-black/20"></div>
+                <div class="flex items-center gap-3 relative z-10">
+                    <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg transform rotate-3">
+                        <i data-lucide="zap" class="text-blue-600" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-black text-white tracking-tight">BigVoltz</h1>
+                        <p class="text-xs text-white/80 font-semibold">Ultimate EE Resource</p>
+                    </div>
+                </div>
+                <button id="closeSidebar" class="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors text-white relative z-10">
+                    <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+                </button>
             </div>
 
-            <div class="service-item">
-                <span class="technical-font">01.03</span>
-                <h3 data-i18n="serv3_title">Netilslutning & Dokumentation</h3>
-                <p data-i18n="serv3_desc">Tilslutningsansøgninger til netselskaber, SKS/KLS dokumentation, samt tekniske rapporter til bygningsmyndigheder.</p>
+            <!-- Enhanced Navigation Tabs -->
+            <div class="flex flex-col gap-2 p-4 border-b border-slate-800 bg-slate-900/50">
+                <button id="knowledgeTab" class="nav-tab active flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all">
+                    <i data-lucide="book-open" style="width: 18px; height: 18px;"></i>
+                    <span>Knowledge Base</span>
+                </button>
+                <button id="toolsTab" class="nav-tab flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all">
+                    <i data-lucide="calculator" style="width: 18px; height: 18px;"></i>
+                    <span>Engineering Tools</span>
+                </button>
+                <button id="projectsTab" class="nav-tab flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all">
+                    <i data-lucide="folder" style="width: 18px; height: 18px;"></i>
+                    <span>Projects</span>
+                </button>
+                <button id="learningTab" class="nav-tab flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all">
+                    <i data-lucide="graduation-cap" style="width: 18px; height: 18px;"></i>
+                    <span>Learning Paths</span>
+                </button>
+                <button id="referencesTab" class="nav-tab flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all">
+                    <i data-lucide="library" style="width: 18px; height: 18px;"></i>
+                    <span>References</span>
+                </button>
             </div>
 
-            <div class="service-item">
-                <span class="technical-font">01.04</span>
-                <h3 data-i18n="serv4_title">Beskyttelseskoordinering</h3>
-                <p data-i18n="serv4_desc">Selektivitetsanalyser, relæindstillinger og fejlstrømsberegninger. Sikrer pålidelig afbrydelse ved fejl uden unødvendige driftsstop.</p>
+            <!-- Dynamic Content Area -->
+            <div class="flex-1 overflow-y-auto">
+                <div id="sidebarContent" class="p-4"></div>
             </div>
 
-            <div class="service-item">
-                <span class="technical-font">01.05</span>
-                <h3 data-i18n="serv5_title">Teknisk Rådgivning</h3>
-                <p data-i18n="serv5_desc">Uvildig rådgivning om tekniske løsninger, materialevalg og compliance. Kvalitetssikring af projekter fra koncept til udførelse.</p>
+            <!-- Premium Footer -->
+            <div class="p-4 border-t border-slate-800/50 bg-gradient-to-t from-slate-950 to-slate-900">
+                <div class="flex items-center justify-between text-xs text-slate-500 mb-3">
+                    <span class="font-mono font-semibold">v2.0.0-PRO</span>
+                    <div class="flex items-center gap-2 px-2 py-1 bg-green-500/10 rounded-full border border-green-500/20">
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                        <span class="text-green-400 font-bold text-[10px]">LIVE</span>
+                    </div>
+                </div>
+                <div class="text-[10px] text-slate-600 text-center font-medium">
+                    Made with ⚡ for Engineers
+                </div>
             </div>
+        </aside>
 
-            <div class="service-item">
-                <span class="technical-font">01.06</span>
-                <h3 data-i18n="serv6_title">Energioptimering</h3>
-                <p data-i18n="serv6_desc">Effektfaktoranalyser, harmoniske studier og last-profiler. Reducer elregninger og forbedre netværkskvalitet.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="credentials" class="credentials">
-        <div class="section-header">
-            <h2 data-i18n="cred_title">Værktøjer & Standarder</h2>
-            <span class="technical-font">02 — TOOLS & COMPLIANCE</span>
-        </div>
-        
-        <div class="credentials-grid">
-            <div class="credential-item">
-                <span class="technical-font">SOFTWARE</span>
-                <h4 data-i18n="cred1_title">Professionelle Værktøjer</h4>
-                <p data-i18n="cred1_desc">PowerFactory, PC Schematic, AutoCAD Electrical, ETAP</p>
-            </div>
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col h-full overflow-hidden bg-slate-950 relative">
             
-            <div class="credential-item">
-                <span class="technical-font">STANDARDS</span>
-                <h4 data-i18n="cred2_title">Regulatorisk Compliance</h4>
-                <p data-i18n="cred2_desc">IEC 60364, IEC 60204, DS/EN standarder, BEK 1082</p>
-            </div>
+            <!-- Premium Header -->
+            <header class="h-16 border-b border-slate-800 flex items-center justify-between px-6 md:px-8 bg-slate-950/95 backdrop-blur-xl sticky top-0 z-10 shadow-lg">
+                <div class="flex items-center gap-4">
+                    <button id="menuToggle" class="p-2 hover:bg-slate-800 rounded-lg transition-all text-slate-400 hover:text-white">
+                        <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
+                    </button>
+                    <div id="breadcrumbs" class="flex items-center gap-2 text-sm"></div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button id="searchBtn" class="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-800 text-xs font-medium text-slate-400 hover:text-white hover:border-blue-500 transition-all">
+                        <i data-lucide="search" style="width: 14px; height: 14px;"></i>
+                        <span>Quick Search</span>
+                        <kbd class="px-2 py-0.5 bg-slate-900 rounded text-[10px] border border-slate-700">⌘K</kbd>
+                    </button>
+                    <button class="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-xs font-bold text-white hover:shadow-lg transition-all">
+                        <i data-lucide="bookmark" style="width: 14px; height: 14px;"></i>
+                        <span>Bookmarks</span>
+                    </button>
+                </div>
+            </header>
 
-            <div class="credential-item">
-                <span class="technical-font">METHODOLOGY</span>
-                <h4 data-i18n="cred3_title">Ingeniørmetoder</h4>
-                <p data-i18n="cred3_desc">Load-flow analyse, kortslutning, koordinering, CAD</p>
-            </div>
-        </div>
-    </section>
+            <!-- Content Scroll Area -->
+            <main class="flex-1 overflow-y-auto p-6 md:p-12 scroll-smooth">
+                <div class="max-w-6xl mx-auto">
+                    <div id="mainContent"></div>
+                </div>
+            </main>
 
-    <section id="about">
-        <div class="section-header">
-            <h2 data-i18n="about_title">Om Firmaet</h2>
-            <span class="technical-font">03 — FIRM PROFILE</span>
         </div>
-        <div class="about-content">
-            <p class="about-lead" data-i18n="about_lead">
-                "Engineering-kvalitet. Installationsrealisme."
-            </p>
-            <p class="about-text" data-i18n="about_text">
-                F. Tots Engineers leverer teknisk rådgivning og projektering inden for elektriske energisystemer. 
-                Vi udfører beregninger, dimensionering, CAD-tegninger og dokumentation i overensstemmelse med 
-                IEC 60364, IEC 60204, DS/EN standarder og BEK 1082. Vores fokus er ingeniør-delen: load-flow analyser, 
-                kortslutningsberegninger, beskyttelseskoordinering og compliance-dokumentation. 
-                For fysisk udførelse samarbejder vi med autoriserede el-installatører. 
-                Vores værdi ligger i præcise tekniske løsninger — fra koncept til færdig dokumentation — 
-                der sikrer korrekt dimensionering, regulatorisk compliance og problemfri udførelse.
-            </p>
-        </div>
-    </section>
+    </div>
 
-    <section id="contact" class="contact-section">
-        <div class="technical-font" style="margin-bottom: 35px;">INQUIRIES</div>
-        
-        <a href="mailto:kontakt@totsengineering.dk" class="contact-link">kontakt@totsengineering.dk</a>
-        
-        <div class="contact-details">
-            <div class="contact-detail-item">
-                <span class="technical-font">LOCATION</span>
-                Rødovre, Danmark
-            </div>
-            <div class="contact-detail-item">
-                <span class="technical-font">PHONE</span>
-                +45 XX XX XX XX
-            </div>
-        </div>
-        
-        <div class="footer-note">
-            &copy; 2026 F. TOTS ENGINEERING APS — CVR: XXXXXXXX
-        </div>
-    </section>
+    <!-- Mobile Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-10 hidden md:hidden"></div>
 
     <script>
-        // Smooth Scroll Header Effect
-        let lastScrollTop = 0;
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (scrollTop > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            
-            lastScrollTop = scrollTop;
-        });
+        lucide.createIcons();
 
-        // Multi-language Support
-        const translations = {
-            da: {
-                nav_services: "Ydelser",
-                nav_credentials: "Værktøjer", 
-                nav_about: "Profil",
-                nav_contact: "Kontakt",
-                hero_subtitle: "Power Engineering & Consulting",
-                hero_text: "Teknisk rådgivning og projektering inden for elenergi-systemer. Vi leverer beregninger, dimensionering og dokumentation i overensstemmelse med DS/EN og IEC standarder.",
-                services_title: "Ekspertise",
-                serv1_title: "Effektsystemanalyse",
-                serv1_desc: "Lastberegninger, kortslutningsanalyser og spændingsfald. Dimensionering af kabler, transformere og beskyttelsesudstyr efter DS/EN standarder.",
-                serv2_title: "Elinstallationsprojektering",
-                serv2_desc: "CAD-tegning af tavler og installationer. Fra enfamiliehuse til industrianlæg — med både teoretisk og praktisk erfaring fra faget.",
-                serv3_title: "Netilslutning & Dokumentation",
-                serv3_desc: "Tilslutningsansøgninger til netselskaber, SKS/KLS dokumentation, samt tekniske rapporter til bygningsmyndigheder.",
-                serv4_title: "Beskyttelseskoordinering",
-                serv4_desc: "Selektivitetsanalyser, relæindstillinger og fejlstrømsberegninger. Sikrer pålidelig afbrydelse ved fejl uden unødvendige driftsstop.",
-                serv5_title: "Teknisk Rådgivning",
-                serv5_desc: "Uvildig rådgivning om tekniske løsninger, materialevalg og compliance. Kvalitetssikring af projekter fra koncept til udførelse.",
-                serv6_title: "Energioptimering",
-                serv6_desc: "Effektfaktoranalyser, harmoniske studier og last-profiler. Reducer elregninger og forbedre netværkskvalitet.",
-                cred_title: "Værktøjer & Standarder",
-                cred1_title: "Professionelle Værktøjer",
-                cred1_desc: "PowerFactory, PC Schematic, AutoCAD Electrical, ETAP",
-                cred2_title: "Regulatorisk Compliance",
-                cred2_desc: "IEC 60364, IEC 60204, DS/EN standarder, BEK 1082",
-                cred3_title: "Ingeniørmetoder",
-                cred3_desc: "Load-flow analyse, kortslutning, koordinering, CAD",
-                about_title: "Om Firmaet",
-                about_lead: "\"Engineering-kvalitet. Installationsrealisme.\"",
-                about_text: "F. Tots Engineers leverer teknisk rådgivning og projektering inden for elektriske energisystemer. Vi udfører beregninger, dimensionering, CAD-tegninger og dokumentation i overensstemmelse med IEC 60364, IEC 60204, DS/EN standarder og BEK 1082. Vores fokus er ingeniør-delen: load-flow analyser, kortslutningsberegninger, beskyttelseskoordinering og compliance-dokumentation. For fysisk udførelse samarbejder vi med autoriserede el-installatører. Vores værdi ligger i præcise tekniske løsninger — fra koncept til færdig dokumentation — der sikrer korrekt dimensionering, regulatorisk compliance og problemfri udførelse."
-            },
-            en: {
-                nav_services: "Services",
-                nav_credentials: "Tools",
-                nav_about: "Profile",
-                nav_contact: "Contact",
-                hero_subtitle: "Power Engineering & Consulting",
-                hero_text: "Technical consulting and design for electrical power systems. We deliver calculations, sizing, and documentation in compliance with DS/EN and IEC standards.",
-                services_title: "Expertise",
-                serv1_title: "Power System Analysis",
-                serv1_desc: "Load calculations, short-circuit analysis, and voltage drop studies. Sizing of cables, transformers, and protection equipment per DS/EN standards.",
-                serv2_title: "Electrical Installation Design",
-                serv2_desc: "CAD drawings of panels and installations. From residential to industrial — with both theoretical and hands-on trade experience.",
-                serv3_title: "Grid Connection & Documentation",
-                serv3_desc: "Utility connection applications, compliance documentation (SKS/KLS), and technical reports for building authorities.",
-                serv4_title: "Protection Coordination",
-                serv4_desc: "Selectivity analysis, relay settings, and fault current calculations. Ensuring reliable fault clearing without unnecessary outages.",
-                serv5_title: "Technical Consulting",
-                serv5_desc: "Independent advice on technical solutions, material selection, and compliance. Quality assurance from concept to execution.",
-                serv6_title: "Energy Optimization",
-                serv6_desc: "Power factor analysis, harmonic studies, and load profiles. Reduce electricity costs and improve power quality.",
-                cred_title: "Tools & Standards",
-                cred1_title: "Professional Software",
-                cred1_desc: "PowerFactory, PC Schematic, AutoCAD Electrical, ETAP",
-                cred2_title: "Regulatory Compliance",
-                cred2_desc: "IEC 60364, IEC 60204, DS/EN standards, BEK 1082",
-                cred3_title: "Engineering Methods",
-                cred3_desc: "Load-flow analysis, short-circuit, coordination, CAD",
-                about_title: "Firm Profile",
-                about_lead: "\"Engineering quality. Installation realism.\"",
-                about_text: "F. Tots Engineers provides technical consulting and design for electrical power systems. We perform calculations, sizing, CAD drawings, and documentation in accordance with IEC 60364, IEC 60204, DS/EN standards, and BEK 1082. Our focus is the engineering side: load-flow analysis, short-circuit calculations, protection coordination, and compliance documentation. For physical execution, we partner with licensed electricians. Our value lies in precise technical solutions — from concept to final documentation — ensuring correct sizing, regulatory compliance, and smooth execution."
-            },
-            de: {
-                nav_services: "Leistungen",
-                nav_credentials: "Werkzeuge",
-                nav_about: "Profil",
-                nav_contact: "Kontakt",
-                hero_subtitle: "Energietechnik & Beratung",
-                hero_text: "Technische Beratung und Planung für elektrische Energiesysteme. Wir liefern Berechnungen, Dimensionierung und Dokumentation gemäß DS/EN und IEC-Normen.",
-                services_title: "Expertise",
-                serv1_title: "Energiesystemanalyse",
-                serv1_desc: "Lastberechnungen, Kurzschlussanalysen und Spannungsabfall. Dimensionierung von Kabeln, Transformatoren und Schutzeinrichtungen nach DS/EN-Normen.",
-                serv2_title: "Elektroinstallationsplanung",
-                serv2_desc: "CAD-Zeichnungen von Schaltanlagen und Installationen. Von Einfamilienhäusern bis Industrieanlagen — mit theoretischer und praktischer Erfahrung.",
-                serv3_title: "Netzanschluss & Dokumentation",
-                serv3_desc: "Anschlussanträge bei Netzbetreibern, SKS/KLS-Dokumentation sowie technische Berichte für Baubehörden.",
-                serv4_title: "Schutzkoordination",
-                serv4_desc: "Selektivitätsanalysen, Relaiseinstellungen und Fehlerströmberechnungen. Gewährleistet zuverlässige Fehlerabschaltung ohne unnötige Betriebsunterbrechungen.",
-                serv5_title: "Technische Beratung",
-                serv5_desc: "Unabhängige Beratung zu technischen Lösungen, Materialauswahl und Compliance. Qualitätssicherung vom Konzept bis zur Ausführung.",
-                serv6_title: "Energieoptimierung",
-                serv6_desc: "Leistungsfaktoranalysen, Oberwellenstudien und Lastprofile. Reduzieren Sie Stromkosten und verbessern Sie die Netzqualität.",
-                cred_title: "Werkzeuge & Normen",
-                cred1_title: "Professionelle Software",
-                cred1_desc: "PowerFactory, PC Schematic, AutoCAD Electrical, ETAP",
-                cred2_title: "Vorschriftenmäßigkeit",
-                cred2_desc: "IEC 60364, IEC 60204, DS/EN-Normen, BEK 1082",
-                cred3_title: "Ingenieurmethoden",
-                cred3_desc: "Lastflussanalyse, Kurzschluss, Koordinierung, CAD",
-                about_title: "Firmenprofil",
-                about_lead: "\"Engineering-Qualität. Installations-Realismus.\"",
-                about_text: "F. Tots Engineers bietet technische Beratung und Planung für elektrische Energiesysteme. Wir führen Berechnungen, Dimensionierungen, CAD-Zeichnungen und Dokumentationen gemäß IEC 60364, IEC 60204, DS/EN-Normen und BEK 1082 durch. Unser Fokus liegt auf der Engineering-Seite: Lastflussanalysen, Kurzschlussberechnungen, Schutzkoordination und Compliance-Dokumentation. Für die physische Ausführung arbeiten wir mit autorisierten Elektrikern zusammen. Unser Wert liegt in präzisen technischen Lösungen — vom Konzept bis zur fertigen Dokumentation — die korrekte Dimensionierung, Einhaltung der Vorschriften und reibungslose Ausführung gewährleisten."
-            }
-        };
+        // ==================== DATA STORE ====================
+        const knowledgeData = [
+            {
+                id: 'welcome',
+                category: 'Getting Started',
+                title: 'Welcome to BigVoltz',
+                icon: 'home',
+                difficulty: 'beginner',
+                content: `# Welcome to BigVoltz 🚀
 
-        function setLanguage(lang) {
-            // Update active button
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Update all translated elements
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang] && translations[lang][key]) {
-                    el.textContent = translations[lang][key];
+The **ultimate electrical engineering resource platform** designed for students, professionals, and hobbyists.
+
+## What is BigVoltz?
+
+BigVoltz is a comprehensive, self-hosted knowledge base that combines:
+- **Deep Technical Knowledge** - From fundamentals to advanced topics
+- **Interactive Tools** - Calculators, simulators, and design aids
+- **Project Documentation** - Real-world examples and case studies
+- **Learning Paths** - Structured curricula for skill development
+- **Quick References** - Standards, formulas, and lookup tables
+
+## Platform Features
+
+### 🎯 Knowledge Organization
+- Categorized articles covering all EE domains
+- Searchable content with instant filtering
+- Difficulty ratings for progressive learning
+- Cross-referenced topics
+
+### 🧮 Engineering Tools
+- Voltage divider calculator
+- Resistor power calculator
+- Transformer design tool
+- Power factor calculator
+- Cable sizing calculator
+- And many more...
+
+### 📚 Learning Paths
+- Structured courses from beginner to expert
+- Topic-specific study guides
+- Exam preparation materials
+- Industry certifications roadmap
+
+### 🔖 Professional References
+- IEEE Standards database
+- IEC Regulations quick lookup
+- Formula libraries
+- Component databases
+- Conversion tables
+
+## Quick Start Guide
+
+1. **Browse Knowledge Base** - Start with fundamentals or jump to advanced topics
+2. **Use Tools** - Access calculators for quick engineering calculations
+3. **Follow Learning Paths** - Structured education in specific domains
+4. **Check References** - Quick lookup for standards and formulas
+5. **Explore Projects** - Real-world implementation examples
+
+## Content Roadmap
+
+This platform is continuously evolving. Current focus areas:
+- ⚡ Power systems and distribution
+- 🔌 Electrical installations (Danish standards)
+- 🏭 Industrial automation
+- 📡 Control systems
+- 💡 Lighting design
+- 🔋 Energy storage systems
+
+---
+
+**Start exploring** by selecting a topic from the sidebar or use the search function to find specific content!
+`
+            },
+            {
+                id: 'ohms-law',
+                category: 'Fundamentals',
+                title: "Ohm's Law & Power Calculations",
+                icon: 'zap',
+                difficulty: 'beginner',
+                content: `# Ohm's Law & Power Calculations
+
+The foundation of all electrical engineering - understanding the relationship between voltage, current, and resistance.
+
+## Ohm's Law Fundamentals
+
+> "One volt is the potential difference between two points of a conducting wire carrying a constant current of one ampere, when the power dissipated between these points is one watt."
+
+### The Three Basic Formulas
+
+The fundamental relationships:
+
+- **Voltage:** \`V = I × R\` (Volts = Amperes × Ohms)
+- **Current:** \`I = V / R\` (Amperes = Volts / Ohms)
+- **Resistance:** \`R = V / I\` (Ohms = Volts / Amperes)
+
+### Memory Aid: The Ohm's Law Triangle
+
+\`\`\`
+    V
+   ---
+  I | R
+\`\`\`
+
+Cover the value you want to find, and the formula is revealed!
+
+## Power Dissipation
+
+Power is the rate of energy transfer. In electrical systems, power dissipation is crucial for:
+- Component sizing (especially resistors)
+- Heat management
+- Efficiency calculations
+- Safety considerations
+
+### Power Formulas
+
+\`P = V × I\` (Basic power formula)
+\`P = I² × R\` (Power from current and resistance)
+\`P = V² / R\` (Power from voltage and resistance)
+
+Where:
+- P = Power (Watts)
+- V = Voltage (Volts)
+- I = Current (Amperes)
+- R = Resistance (Ohms)
+
+## Practical Example: LED Current Limiting
+
+**Problem:** You want to power a red LED (forward voltage 2V, current 20mA) from a 5V supply.
+
+**Solution:**
+
+1. Calculate voltage drop across resistor:
+   \`V_R = V_supply - V_LED = 5V - 2V = 3V\`
+
+2. Calculate required resistance:
+   \`R = V_R / I = 3V / 0.02A = 150Ω\`
+
+3. Calculate power dissipation:
+   \`P = V_R × I = 3V × 0.02A = 0.06W = 60mW\`
+
+4. **Component selection:** Use a 150Ω, 0.25W (1/4W) resistor
+
+### Python Implementation
+
+\`\`\`python
+# LED current limiting resistor calculator
+v_supply = 5.0  # Supply voltage
+v_led = 2.0     # LED forward voltage
+i_led = 0.020   # LED current in amperes
+
+# Calculate resistor value
+v_resistor = v_supply - v_led
+r = v_resistor / i_led
+p = v_resistor * i_led
+
+print(f"Required Resistance: {r:.1f}Ω")
+print(f"Power Dissipation: {p*1000:.1f}mW")
+print(f"Recommended Resistor: {r:.0f}Ω, 0.25W")
+\`\`\`
+
+## Safety Considerations
+
+⚠️ **Always account for power dissipation!**
+
+| Power Rating | Typical Use Case |
+|--------------|------------------|
+| 1/8 W (0.125W) | Low-power signals |
+| 1/4 W (0.25W) | General purpose |
+| 1/2 W (0.5W) | Moderate power |
+| 1 W | High power circuits |
+| 5+ W | Power resistors (heat sinks required) |
+
+**Safety margin:** Use resistors rated for at least **2× the calculated power** to ensure reliability and longevity.
+
+## Advanced: Temperature Effects
+
+Resistance changes with temperature:
+\`R_T = R_0 × (1 + α × ΔT)\`
+
+Where:
+- R_T = Resistance at temperature T
+- R_0 = Resistance at reference temperature
+- α = Temperature coefficient (ppm/°C)
+- ΔT = Temperature change
+
+For precision applications, always consider thermal effects!
+`
+            },
+            {
+                id: 'kirchhoff-laws',
+                category: 'Fundamentals',
+                title: "Kirchhoff's Laws (KCL & KVL)",
+                icon: 'network',
+                difficulty: 'beginner',
+                content: `# Kirchhoff's Laws
+
+Two fundamental principles that govern all electrical circuits: Current Law (KCL) and Voltage Law (KVL).
+
+## Kirchhoff's Current Law (KCL)
+
+> "The algebraic sum of currents entering a node equals zero."
+
+Or equivalently: **Current in = Current out**
+
+### Mathematical Expression
+
+At any node: \`Σ I_in = Σ I_out\`
+
+Or: \`Σ I = 0\` (with sign convention)
+
+### Practical Application
+
+Consider a node where three wires meet:
+- Wire A: 5A flowing **in**
+- Wire B: 2A flowing **out**
+- Wire C: ? flowing **out**
+
+By KCL: \`5A = 2A + I_C\`
+Therefore: \`I_C = 3A\`
+
+### Real-World Example: Power Distribution
+
+In a factory's main distribution board:
+- Incoming supply: 400A
+- Production line 1: 150A
+- Production line 2: 120A
+- Lighting & HVAC: 80A
+- Reserve capacity: 50A
+
+**Total:** 150 + 120 + 80 + 50 = 400A ✓
+
+## Kirchhoff's Voltage Law (KVL)
+
+> "The algebraic sum of voltages around any closed loop equals zero."
+
+### Mathematical Expression
+
+Around any closed loop: \`Σ V = 0\`
+
+Or: \`V_source = Σ V_drops\`
+
+### Series Circuit Example
+
+A 12V battery powers three resistors in series:
+- R1 = 100Ω (V1 = ?)
+- R2 = 200Ω (V2 = ?)
+- R3 = 300Ω (V3 = ?)
+
+**Step 1:** Total resistance
+\`R_total = 100 + 200 + 300 = 600Ω\`
+
+**Step 2:** Calculate current
+\`I = V / R_total = 12V / 600Ω = 0.02A = 20mA\`
+
+**Step 3:** Individual voltages
+- \`V1 = I × R1 = 0.02 × 100 = 2V\`
+- \`V2 = I × R2 = 0.02 × 200 = 4V\`
+- \`V3 = I × R3 = 0.02 × 300 = 6V\`
+
+**Verification (KVL):** \`2V + 4V + 6V = 12V\` ✓
+
+## Combined Application: Network Analysis
+
+For complex networks, combine KCL and KVL:
+
+1. **Assign currents** to each branch
+2. **Apply KCL** at each node
+3. **Apply KVL** to each loop
+4. **Solve simultaneous equations**
+
+### Example: Two-Loop Circuit
+
+\`\`\`python
+import numpy as np
+
+# System of equations from KVL:
+# Loop 1: V1 = I1*R1 + I1*R3 - I2*R3
+# Loop 2: 0 = I2*R2 + I2*R3 - I1*R3
+
+# Matrix form: A × I = V
+A = np.array([
+    [R1 + R3, -R3],
+    [-R3, R2 + R3]
+])
+V = np.array([V1, 0])
+
+# Solve for currents
+I = np.linalg.solve(A, V)
+print(f"I1 = {I[0]:.3f}A")
+print(f"I2 = {I[1]:.3f}A")
+\`\`\`
+
+## Pro Tips for Circuit Analysis
+
+1. **Always draw current direction** - stick with your convention
+2. **Label all nodes** - use numbers or letters
+3. **Positive voltage drops** - in direction of current flow
+4. **Check your work** - verify with both KCL and KVL
+5. **Use symmetry** - simplify before calculating
+
+These laws are the foundation of circuit analysis - master them and complex networks become manageable!
+`
+            },
+            {
+                id: 'three-phase',
+                category: 'Power Systems',
+                title: 'Three-Phase Power Systems',
+                icon: 'activity',
+                difficulty: 'intermediate',
+                content: `# Three-Phase Power Systems
+
+Three-phase power is the backbone of industrial and commercial electrical distribution. Understanding it is essential for power systems engineering.
+
+## Why Three-Phase?
+
+Three-phase power offers significant advantages over single-phase:
+
+### Advantages
+- **87% more power** from same conductor mass
+- **Constant power delivery** (no pulsation)
+- **More efficient** transmission
+- **Smoother motor operation**
+- **Lower current** for same power
+- **Balanced loads** reduce neutral current
+
+### Applications
+- Industrial machinery
+- Large motors (>5 kW typically)
+- Power distribution grids
+- Commercial buildings
+- Data centers
+- Manufacturing facilities
+
+## Three-Phase Basics
+
+### Phase Relationships
+
+Three sinusoidal voltages:
+- **Phase A** (0°)
+- **Phase B** (120° lagging)
+- **Phase C** (240° lagging)
+
+Mathematical representation:
+\`\`\`
+V_A(t) = V_m × sin(ωt)
+V_B(t) = V_m × sin(ωt - 120°)
+V_C(t) = V_m × sin(ωt - 240°)
+\`\`\`
+
+### Key Voltage Relationships
+
+For a system with phase voltage **V_ph**:
+
+**Line voltage:** \`V_L = √3 × V_ph ≈ 1.732 × V_ph\`
+
+#### Common European Systems:
+| System | Phase Voltage | Line Voltage |
+|--------|---------------|--------------|
+| 230/400V | 230V | 400V |
+| 127/220V | 127V | 220V (older) |
+| 240/415V | 240V | 415V (UK) |
+
+## Connection Types
+
+### Star (Wye) Connection - Y
+
+**Characteristics:**
+- Neutral point available
+- Line voltage = √3 × Phase voltage
+- Line current = Phase current
+- Suitable for unbalanced loads
+
+**Calculations:**
+\`\`\`
+V_line = √3 × V_phase
+I_line = I_phase
+P_total = 3 × V_phase × I_phase × cos(φ)
+P_total = √3 × V_line × I_line × cos(φ)
+\`\`\`
+
+### Delta Connection - Δ
+
+**Characteristics:**
+- No neutral point
+- Line voltage = Phase voltage
+- Line current = √3 × Phase current
+- Better for balanced loads
+- Used in motor windings
+
+**Calculations:**
+\`\`\`
+V_line = V_phase
+I_line = √3 × I_phase
+P_total = 3 × V_phase × I_phase × cos(φ)
+P_total = √3 × V_line × I_line × cos(φ)
+\`\`\`
+
+## Power Calculations
+
+### Three-Phase Power Formula
+
+**Active Power:**
+\`P = √3 × V_L × I_L × cos(φ)\` [Watts]
+
+**Reactive Power:**
+\`Q = √3 × V_L × I_L × sin(φ)\` [VAR]
+
+**Apparent Power:**
+\`S = √3 × V_L × I_L\` [VA]
+
+Where:
+- V_L = Line voltage (V)
+- I_L = Line current (A)
+- φ = Phase angle
+- cos(φ) = Power factor
+
+### Practical Example: Motor Load
+
+**Given:**
+- 400V three-phase supply
+- 15 kW motor
+- Power factor = 0.85
+- Efficiency = 92%
+
+**Calculate line current:**
+
+1. Input power needed:
+   \`P_in = P_out / η = 15000W / 0.92 = 16304W\`
+
+2. Line current:
+   \`I_L = P / (√3 × V_L × cos(φ))\`
+   \`I_L = 16304 / (1.732 × 400 × 0.85)\`
+   \`I_L = 27.7A\`
+
+3. Cable sizing (simplified):
+   - Use 4mm² for ≤27.7A
+   - Consider installation method
+   - Add safety factor
+   - Check voltage drop
+
+## Load Balancing
+
+### Why Balance Matters
+
+**Unbalanced loads cause:**
+- Excessive neutral current
+- Voltage imbalance
+- Overheating
+- Reduced equipment life
+- Higher losses
+
+### Balancing Strategy
+
+Distribute single-phase loads across three phases:
+
+| Phase | Load | Current |
+|-------|------|---------|
+| L1 | 10 kW | 43.5A |
+| L2 | 12 kW | 52.2A |
+| L3 | 11 kW | 47.8A |
+| **Total** | **33 kW** | **Unbalanced** |
+
+**Target:** Each phase within ±10% of average
+
+## Danish Installation Standards (DS/HD 60364)
+
+### Mandatory Requirements:
+
+1. **Color coding:**
+   - L1: Brown
+   - L2: Black
+   - L3: Grey
+   - N: Blue
+   - PE: Yellow/Green
+
+2. **Protection:**
+   - Circuit breakers on all live conductors
+   - RCD protection as required
+   - Proper earthing
+
+3. **Documentation:**
+   - Single-line diagrams
+   - Load calculations
+   - Protection coordination
+
+### Practical Installation Tips
+
+✅ **Do:**
+- Use appropriate cable size (with derating factors)
+- Balance loads during installation
+- Label all phases clearly
+- Test phase sequence before connecting motors
+- Document as-built configuration
+
+❌ **Don't:**
+- Mix up phase colors
+- Forget neutral in star-connected loads
+- Undersize cables for three-phase
+- Ignore voltage drop calculations
+- Skip earth continuity testing
+
+## Advanced: Phase Sequence
+
+**Positive sequence (ABC):** Motors run forward
+**Negative sequence (ACB):** Motors run backward
+
+**Testing phase sequence:**
+1. Use phase sequence indicator
+2. Verify before motor connection
+3. Swap any two phases to reverse
+
+**Protection:** Phase sequence relays prevent wrong-direction motor starts.
+
+---
+
+Master three-phase systems to unlock industrial electrical engineering!
+`
+            },
+            {
+                id: 'cable-sizing',
+                category: 'Power Systems',
+                title: 'Cable Sizing & Voltage Drop',
+                icon: 'cable',
+                difficulty: 'intermediate',
+                content: `# Cable Sizing & Voltage Drop Calculations
+
+Proper cable sizing is critical for safety, efficiency, and compliance with regulations. This guide covers Danish standards (DS/HD 60364-5-52).
+
+## Key Factors in Cable Sizing
+
+1. **Current carrying capacity** (Ampacity)
+2. **Voltage drop** (Max 3-5% typically)
+3. **Short circuit protection**
+4. **Installation method** (conduit, tray, buried)
+5. **Ambient temperature**
+6. **Grouping factors**
+7. **Load type** (continuous, intermittent)
+
+## Current Carrying Capacity
+
+### Basic Selection Process
+
+**Step 1:** Determine design current (I_b)
+- Calculated load current
+- Include diversity factor
+- Consider future expansion
+
+**Step 2:** Select protective device rating (I_n)
+- I_n ≥ I_b
+
+**Step 3:** Find cable current rating (I_z)
+- I_z ≥ I_n
+- Apply correction factors
+
+### Correction Factors
+
+Cable ampacity must be derated for:
+
+**Ambient temperature (K₁):**
+| Temp | Correction Factor |
+|------|-------------------|
+| 25°C | 1.04 |
+| 30°C | 1.00 (reference) |
+| 35°C | 0.96 |
+| 40°C | 0.91 |
+| 45°C | 0.87 |
+
+**Grouping (K₂):**
+| Cables | Touching | Spaced 1D |
+|--------|----------|-----------|
+| 2 | 0.80 | 0.85 |
+| 3 | 0.70 | 0.79 |
+| 4 | 0.65 | 0.75 |
+
+**Installation method affects base ampacity:**
+- Enclosed: Lower rating
+- Open air: Higher rating
+- Buried: Depends on soil thermal resistivity
+
+### Corrected Ampacity
+
+\`I_z = I_table / (K₁ × K₂ × K₃ × ...)\`
+
+## Voltage Drop Calculations
+
+Maximum voltage drop limits (DS/HD 60364):
+
+| Circuit Type | Limit |
+|--------------|-------|
+| Lighting | 3% |
+| Power | 5% |
+| Motors (starting) | 10-15% temporary |
+
+### Single-Phase Formula
+
+\`ΔV = (2 × I × L × (R × cos(φ) + X × sin(φ))) / 1000\`
+
+Simplified (for resistive loads, cos φ ≈ 1):
+\`ΔV = (2 × I × L × R) / 1000\`
+
+Where:
+- ΔV = Voltage drop (V)
+- I = Current (A)
+- L = Cable length (m)
+- R = Resistance (Ω/km)
+- X = Reactance (Ω/km)
+- cos(φ) = Power factor
+
+### Three-Phase Formula
+
+\`ΔV = (√3 × I × L × (R × cos(φ) + X × sin(φ))) / 1000\`
+
+Simplified:
+\`ΔV = (1.732 × I × L × R) / 1000\`
+
+## Practical Example: Factory Distribution
+
+**Scenario:**
+- Three-phase 400V supply
+- Machine load: 30 kW
+- Power factor: 0.85
+- Distance: 75 meters
+- Installation: In conduit, 35°C ambient
+- 3 other circuits in same conduit
+
+**Step 1: Calculate current**
+\`\`\`python
+P = 30000  # Watts
+V = 400    # Volts
+pf = 0.85  # Power factor
+
+I_b = P / (1.732 * V * pf)
+I_b = 30000 / (1.732 * 400 * 0.85)
+I_b = 51.0A
+\`\`\`
+
+**Step 2: Select protective device**
+- Choose 63A circuit breaker
+- I_n = 63A
+
+**Step 3: Apply correction factors**
+\`\`\`python
+K1 = 0.96  # 35°C ambient
+K2 = 0.65  # 4 circuits grouped
+K_total = K1 * K2 = 0.624
+
+# Required cable rating
+I_required = I_n / K_total
+I_required = 63 / 0.624 = 101A
+\`\`\`
+
+**Step 4: Select cable**
+- From tables: 16mm² Cu has I_z = 103A (method B1)
+- **Selection: 16mm² copper cable**
+
+**Step 5: Verify voltage drop**
+\`\`\`python
+# Cable resistance (16mm² Cu): 1.15 Ω/km
+R = 1.15
+L = 75  # meters
+I = 51  # actual load current
+
+delta_V = (1.732 * I * L * R) / 1000
+delta_V = (1.732 * 51 * 75 * 1.15) / 1000
+delta_V = 7.6V
+
+# Percentage voltage drop
+percent_drop = (delta_V / 400) * 100
+percent_drop = 1.9%
+\`\`\`
+
+✅ **Result:** 1.9% < 5% limit - **ACCEPTABLE**
+
+## The Danish 30% Rule
+
+**DS/HD 60364-5-52** specifies the "30% rule" for cable extensions:
+
+### When Adding to Existing Installation
+
+If extending an existing cable:
+1. **Measure existing installation:** I_existing
+2. **Calculate addition:** I_addition
+3. **Check:** I_addition ≤ 0.30 × I_existing
+
+**If true:** Existing protection remains valid
+**If false:** Re-evaluate entire circuit protection
+
+### Example Application
+
+Existing factory circuit:
+- Original load: 40A
+- Original cable: 10mm²
+- Original breaker: 50A
+
+Adding new machine requiring 15A:
+\`15A ≤ 0.30 × 40A = 12A\` ❌
+
+15A > 12A, therefore:
+- Must re-calculate entire circuit
+- May need larger cable
+- May need larger breaker
+- Must verify protection coordination
+
+## Cable Selection Quick Reference
+
+### Copper Cables (PVC insulation, 30°C)
+
+| Size | Method B1 (Conduit) | Method C (Clipped) | R (Ω/km) |
+|------|---------------------|--------------------| ---------|
+| 1.5mm² | 17.5A | 19.5A | 12.1 |
+| 2.5mm² | 24A | 27A | 7.41 |
+| 4mm² | 32A | 36A | 4.61 |
+| 6mm² | 41A | 46A | 3.08 |
+| 10mm² | 57A | 63A | 1.83 |
+| 16mm² | 76A | 85A | 1.15 |
+| 25mm² | 101A | 112A | 0.727 |
+| 35mm² | 125A | 138A | 0.524 |
+
+## Professional Calculation Checklist
+
+✅ Pre-Calculation:
+- [ ] Identify load type (continuous/intermittent)
+- [ ] Measure/estimate cable route length
+- [ ] Note installation method
+- [ ] Check ambient temperature
+- [ ] Count grouped circuits
+- [ ] Determine required power factor
+
+✅ Cable Selection:
+- [ ] Calculate design current (I_b)
+- [ ] Select protective device (I_n)
+- [ ] Apply ALL correction factors
+- [ ] Choose cable from tables
+- [ ] Verify I_z ≥ I_n / K_factors
+
+✅ Verification:
+- [ ] Calculate actual voltage drop
+- [ ] Check against limits (3-5%)
+- [ ] Verify short circuit protection
+- [ ] Document assumptions
+- [ ] Get approval if extending existing circuits (30% rule)
+
+---
+
+**Pro Tip:** Always round UP to the next standard cable size. Never compromise on safety to save costs!
+`
+            },
+            {
+                id: 'esp32-intro',
+                category: 'Microcontrollers',
+                title: 'ESP32 Deep Dive',
+                icon: 'cpu',
+                difficulty: 'intermediate',
+                content: `# ESP32 Microcontroller Deep Dive
+
+The ESP32 is a powerful, low-cost microcontroller with integrated Wi-Fi and Bluetooth, making it ideal for IoT projects.
+
+## ESP32 Key Specifications
+
+### Core Features
+- **Processor:** Dual-core Xtensa LX6 @ 240 MHz
+- **Memory:** 520 KB SRAM
+- **Flash:** 4-16 MB (external)
+- **Wi-Fi:** 802.11 b/g/n
+- **Bluetooth:** Classic + BLE 4.2/5.0
+- **GPIO:** Up to 34 programmable pins
+- **ADC:** 18 × 12-bit channels
+- **DAC:** 2 × 8-bit channels
+- **Touch sensors:** 10 capacitive touch pins
+- **Peripherals:** SPI, I²C, I²S, UART, CAN, PWM
+
+### Popular Variants
+
+| Module | Flash | Features | Use Case |
+|--------|-------|----------|----------|
+| ESP32-WROOM | 4MB | Standard | General purpose |
+| ESP32-WROVER | 4MB + PSRAM | Extra RAM | Camera, display |
+| ESP32-C3 | 4MB | RISC-V, 1 core | Cost-sensitive |
+| ESP32-S3 | 8MB | AI acceleration | ML applications |
+
+## Power Management
+
+One of ESP32's superpowers is its sophisticated power management.
+
+### Power Consumption Modes
+
+| Mode | Current | Use Case |
+|------|---------|----------|
+| Active (Wi-Fi TX) | ~160-260 mA | Data transmission |
+| Active (Wi-Fi RX) | ~80-120 mA | Listening for packets |
+| Modem Sleep | ~20-30 mA | Periodic Wi-Fi |
+| Light Sleep | ~0.8 mA | Quick wake needed |
+| Deep Sleep | ~10 µA | Long term battery |
+| Hibernation | ~5 µA | Ultra low power |
+
+### Deep Sleep Implementation
+
+**Deep sleep** is crucial for battery-powered projects:
+
+\`\`\`cpp
+#include <esp_sleep.h>
+
+#define uS_TO_S_FACTOR 1000000ULL
+#define TIME_TO_SLEEP  60  // Sleep for 60 seconds
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+  
+  // Your sensor reading code here
+  float temperature = readTemperature();
+  Serial.printf("Temperature: %.2f°C\\n", temperature);
+  
+  // Send data to server
+  sendDataToServer(temperature);
+  
+  // Configure timer wake up
+  esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
+  
+  Serial.println("Entering deep sleep...");
+  Serial.flush();
+  
+  // Enter deep sleep
+  esp_deep_sleep_start();
+}
+
+void loop() {
+  // Never executed - ESP32 resets on wake
+}
+\`\`\`
+
+### Wake-Up Sources
+
+ESP32 can wake from deep sleep via:
+
+1. **Timer:** Wake after specific time
+2. **External GPIO:** Button press
+3. **Touchpad:** Touch sensor trigger
+4. **ULP Coprocessor:** Ultra-low-power tasks
+
+**Example: Button Wake**
+\`\`\`cpp
+#define BUTTON_PIN 33
+
+void setup() {
+  // Enable wake on GPIO
+  esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, 0); // Wake on LOW
+  
+  // Do your work...
+  
+  esp_deep_sleep_start();
+}
+\`\`\`
+
+### RTC Memory
+
+RTC memory survives deep sleep - perfect for storing state:
+
+\`\`\`cpp
+RTC_DATA_ATTR int bootCount = 0;
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+  
+  bootCount++;
+  Serial.printf("Boot number: %d\\n", bootCount);
+  
+  // Setup and enter sleep
+  esp_sleep_enable_timer_wakeup(5 * uS_TO_S_FACTOR);
+  esp_deep_sleep_start();
+}
+\`\`\`
+
+## Battery Life Calculation
+
+**Example: Weather Station**
+
+Requirements:
+- Read temperature every 15 minutes
+- Send data via Wi-Fi
+- 2500 mAh LiPo battery
+
+Active time per cycle:
+- Wake up: 100ms @ 80mA
+- Read sensor: 500ms @ 40mA
+- Connect Wi-Fi: 2s @ 150mA
+- Send data: 1s @ 180mA
+- Deep sleep: 14 min 56.4s @ 0.01mA
+
+\`\`\`python
+# Calculate average current
+wake_time = 0.1 + 0.5 + 2.0 + 1.0  # seconds
+wake_current = (0.1*80 + 0.5*40 + 2.0*150 + 1.0*180) / wake_time
+wake_current_avg = wake_current * (wake_time / 900)  # Average over 15 min
+
+sleep_time = 900 - wake_time
+sleep_current_avg = 0.01 * (sleep_time / 900)
+
+total_avg_current = wake_current_avg + sleep_current_avg
+# ≈ 0.88 mA
+
+battery_life_hours = 2500 / 0.88
+battery_life_days = battery_life_hours / 24
+# ≈ 118 days!
+\`\`\`
+
+## Wi-Fi Optimization
+
+### Connection Speed
+
+Reduce connection time = save battery:
+
+\`\`\`cpp
+#include <WiFi.h>
+
+WiFi.mode(WIFI_STA);
+WiFi.begin(ssid, password);
+
+// Wait for connection (with timeout)
+int attempts = 0;
+while (WiFi.status() != WL_CONNECTED && attempts < 40) {
+  delay(250);
+  attempts++;
+}
+
+if (WiFi.status() == WL_CONNECTED) {
+  // Do network tasks
+} else {
+  Serial.println("Connection failed, going back to sleep");
+}
+\`\`\`
+
+### Static IP (Faster Connection)
+
+\`\`\`cpp
+IPAddress local_IP(192, 168, 1, 100);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 255, 0);
+
+if (!WiFi.config(local_IP, gateway, subnet)) {
+  Serial.println("STA Failed to configure");
+}
+
+WiFi.begin(ssid, password);
+\`\`\`
+
+## GPIO Best Practices
+
+### Safe Pins to Use
+
+✅ **Always safe:**
+- GPIO 4, 5, 12-19, 21-23, 25-27, 32-33
+
+⚠️ **Use with caution:**
+- GPIO 0: Boot mode (must be HIGH on boot)
+- GPIO 2: Boot mode (must be floating/HIGH)
+- GPIO 15: Boot mode (must be HIGH)
+
+❌ **Avoid:**
+- GPIO 6-11: Connected to flash
+- GPIO 34-39: Input only (no pull-up/pull-down)
+
+### Pin Configuration
+
+\`\`\`cpp
+// Output
+pinMode(LED_PIN, OUTPUT);
+digitalWrite(LED_PIN, HIGH);
+
+// Input with pull-up
+pinMode(BUTTON_PIN, INPUT_PULLUP);
+bool buttonState = digitalRead(BUTTON_PIN);
+
+// PWM (LED dimming)
+ledcSetup(0, 5000, 8);  // Channel 0, 5kHz, 8-bit resolution
+ledcAttachPin(LED_PIN, 0);
+ledcWrite(0, 128);  // 50% duty cycle
+\`\`\`
+
+## Development Tips
+
+### Serial Debugging During Deep Sleep
+
+\`\`\`cpp
+Serial.println("Going to sleep...");
+Serial.flush();  // IMPORTANT: Wait for serial to finish
+delay(100);
+esp_deep_sleep_start();
+\`\`\`
+
+### Monitor Wake Cause
+
+\`\`\`cpp
+void setup() {
+  esp_sleep_wakeup_cause_t wakeup_reason;
+  wakeup_reason = esp_sleep_get_wakeup_cause();
+  
+  switch(wakeup_reason) {
+    case ESP_SLEEP_WAKEUP_TIMER:
+      Serial.println("Woken by timer");
+      break;
+    case ESP_SLEEP_WAKEUP_EXT0:
+      Serial.println("Woken by external signal");
+      break;
+    default:
+      Serial.println("Not deep sleep wake");
+      break;
+  }
+}
+\`\`\`
+
+---
+
+The ESP32 is an incredibly versatile platform. Master its power management and you can build battery-powered IoT devices that last months on a single charge!
+`
+            },
+            {
+                id: 'transformers',
+                category: 'Power Systems',
+                title: 'Transformer Theory & Design',
+                icon: 'box',
+                difficulty: 'advanced',
+                content: `# Transformer Theory & Design
+
+Transformers are fundamental to power systems, enabling efficient voltage transformation and electrical isolation.
+
+## Transformer Fundamentals
+
+### Basic Principle
+
+A transformer works on **electromagnetic induction**:
+- AC current in primary creates magnetic flux
+- Flux links through core to secondary
+- Changing flux induces voltage in secondary
+
+**Ideal transformer relationship:**
+\`V_s / V_p = N_s / N_p\`
+\`I_s / I_p = N_p / N_s\`
+
+Where:
+- V = Voltage
+- I = Current
+- N = Number of turns
+- subscript p = primary
+- subscript s = secondary
+
+### Transformer Types
+
+| Type | Application | Voltage Ratio |
+|------|-------------|---------------|
+| Step-up | Power transmission | Vs > Vp |
+| Step-down | Power distribution | Vs < Vp |
+| Isolation | Safety, galvanic isolation | Vs ≈ Vp |
+| Autotransformer | Voltage regulation | Variable |
+| Current | Metering | High ratio |
+
+## Core Materials
+
+Core material dramatically affects transformer performance:
+
+### Laminated Steel (Power Transformers)
+- **Material:** Silicon steel (3-4% Si)
+- **Thickness:** 0.3-0.5mm laminations
+- **Frequency:** 50/60 Hz
+- **Losses:** Low hysteresis
+- **Applications:** Power distribution
+
+### Ferrite (High Frequency)
+- **Material:** Iron oxide ceramic
+- **Frequency:** 20 kHz - 1 MHz
+- **Applications:** Switch-mode power supplies
+- **Advantages:** Low eddy current losses
+
+### Amorphous Metal
+- **Losses:** 70% lower than silicon steel
+- **Cost:** Higher initial cost
+- **Applications:** Energy-efficient distribution
+- **Characteristics:** Glassy atomic structure
+
+## Transformer Losses
+
+### Core Losses (No-load losses)
+
+**Hysteresis losses:**
+\`P_h = k_h × f × B_max^n × Volume\`
+
+- Proportional to frequency
+- Proportional to B_max^1.6 to B_max^2
+- Material dependent
+
+**Eddy current losses:**
+\`P_e = k_e × f^2 × B_max^2 × t^2 × Volume\`
+
+- Proportional to f²
+- Proportional to lamination thickness²
+- Reduced by thin laminations
+
+### Copper Losses (Load losses)
+
+**I²R losses in windings:**
+\`P_cu = I_p^2 × R_p + I_s^2 × R_s\`
+
+- Vary with load (I²)
+- Increase with temperature
+- Primary cost driver in cable size
+
+### Efficiency Calculation
+
+\`η = P_out / P_in × 100%\`
+\`η = P_out / (P_out + P_losses) × 100%\`
+
+**Modern power transformers:** 95-99% efficient!
+
+## Practical Design Example
+
+**Design a 230V to 12V transformer for 50W load:**
+
+### Step 1: Determine Turns Ratio
+
+\`N_s / N_p = V_s / V_p = 12 / 230 = 0.0522\`
+
+### Step 2: Calculate Currents
+
+Secondary current:
+\`I_s = P / V_s = 50 / 12 = 4.17A\`
+
+Primary current (ideal):
+\`I_p = P / V_p = 50 / 230 = 0.217A\`
+
+### Step 3: Select Core
+
+Use **EI core** (common for small transformers):
+- Core area: A_c ≈ 4-5 cm²
+- Window area: A_w ≈ 6-8 cm²
+
+**Core size formula:**
+\`A_c × A_w = P_out / (k × f × B_max × J)\`
+
+Where:
+- k ≈ 0.00044 (typical)
+- f = 50 Hz
+- B_max = 1.2-1.4 T
+- J = Current density (2-3 A/mm² for copper)
+
+### Step 4: Calculate Turns
+
+**Faraday's law:**
+\`V = 4.44 × f × N × A_c × B_max\`
+
+For primary (230V):
+\`N_p = V_p / (4.44 × f × A_c × B_max)\`
+\`N_p = 230 / (4.44 × 50 × 0.0004 × 1.3)\`
+\`N_p ≈ 1995 turns\`
+
+For secondary:
+\`N_s = N_p × 0.0522 ≈ 104 turns\`
+
+### Step 5: Wire Sizing
+
+**Primary wire (0.217A):**
+- Wire area: 0.217 / 2.5 = 0.087 mm²
+- **Use:** 0.25mm diameter wire (0.049mm² × 2 strands)
+
+**Secondary wire (4.17A):**
+- Wire area: 4.17 / 2.5 = 1.67 mm²
+- **Use:** 1.5mm diameter wire (1.77mm²)
+
+## Testing & Verification
+
+### Open Circuit Test (Core Loss)
+
+1. Apply rated voltage to primary
+2. Leave secondary open
+3. Measure: V_p, I_0, P_0
+
+**Results:**
+- Core loss = P_0
+- Magnetizing current = I_0
+- No-load power factor = P_0 / (V_p × I_0)
+
+### Short Circuit Test (Copper Loss)
+
+1. Short secondary terminals
+2. Apply reduced voltage to primary (to get rated current)
+3. Measure: V_sc, I_sc, P_sc
+
+**Results:**
+- Copper loss at full load = P_sc
+- Equivalent impedance = V_sc / I_sc
+- Voltage regulation data
+
+### Polarity Test
+
+**Additive polarity:**
+- V_measured = V_p + V_s
+
+**Subtractive polarity:**
+- V_measured = V_p - V_s
+
+Mark terminals accordingly (H1, H2, X1, X2)
+
+## Thermal Management
+
+**Temperature rise limits (IEC 60076):**
+
+| Insulation Class | Max Temperature | Rise Above Ambient |
+|------------------|-----------------|-------------------|
+| A (105°C) | 105°C | 60°C |
+| E (120°C) | 120°C | 75°C |
+| B (130°C) | 130°C | 80°C |
+| F (155°C) | 155°C | 100°C |
+| H (180°C) | 180°C | 125°C |
+
+**Cooling methods:**
+- **ONAN:** Oil Natural, Air Natural (passive)
+- **ONAF:** Oil Natural, Air Forced (fans)
+- **OFAF:** Oil Forced, Air Forced (pumps + fans)
+- **Dry type:** Air natural or forced
+
+## Safety Considerations
+
+⚠️ **Critical Safety Rules:**
+
+1. **Never open secondary while energized** - high voltage induced
+2. **Always earth transformer case** - fault protection
+3. **Check polarity before paralleling** - prevent short circuit
+4. **Verify insulation resistance** - before energizing
+5. **Monitor temperature rise** - prevent overheating
+6. **Use proper protection** - fuses, breakers, relays
+
+### Protective Devices
+
+- **Overcurrent protection:** Primary and secondary
+- **Overtemperature:** Thermal sensors (Winding and oil)
+- **Differential protection:** For large transformers (>1 MVA)
+- **Buchholz relay:** Gas accumulation in oil (fault detection)
+
+---
+
+Transformers are the workhorses of the electrical grid. Understanding their design principles allows optimization for efficiency, size, and cost!
+`
+            }
+        ];
+
+        const toolsData = [
+            {
+                id: 'voltage-divider',
+                title: 'Voltage Divider Calculator',
+                icon: 'activity',
+                description: 'Calculate output voltage from resistive divider network'
+            },
+            {
+                id: 'power-calc',
+                title: 'Power & Current Calculator',
+                icon: 'zap',
+                description: 'Calculate power dissipation in resistors'
+            },
+            {
+                id: 'cable-sizing',
+                title: 'Cable Sizing Tool',
+                icon: 'cable',
+                description: 'Size cables with voltage drop and ampacity checks'
+            },
+            {
+                id: 'transformer-design',
+                title: 'Transformer Designer',
+                icon: 'box',
+                description: 'Design custom transformers with turn calculations'
+            }
+        ];
+
+        const projectsData = [
+            {
+                id: 'home-automation',
+                category: 'IoT',
+                title: 'ESP32 Home Automation',
+                status: 'In Progress',
+                difficulty: 'Intermediate',
+                description: 'Complete home automation system using ESP32 and MQTT'
+            },
+            {
+                id: 'solar-monitor',
+                category: 'Renewable Energy',
+                title: 'Solar Panel Monitor',
+                status: 'Completed',
+                difficulty: 'Beginner',
+                description: 'Real-time solar panel performance monitoring'
+            }
+        ];
+
+        const learningPaths = [
+            {
+                id: 'fundamentals',
+                title: 'Electrical Fundamentals',
+                level: 'Beginner',
+                duration: '4 weeks',
+                topics: 8,
+                progress: 0
+            },
+            {
+                id: 'power-systems',
+                title: 'Power Systems Engineering',
+                level: 'Intermediate',
+                duration: '8 weeks',
+                topics: 12,
+                progress: 0
+            },
+            {
+                id: 'industrial-automation',
+                title: 'Industrial Automation',
+                level: 'Advanced',
+                duration: '12 weeks',
+                topics: 15,
+                progress: 0
+            }
+        ];
+
+        // ==================== STATE ====================
+        let activeView = 'knowledge';
+        let activeId = 'welcome';
+        let searchQuery = '';
+        let isSidebarOpen = false;
+
+        // ==================== HELPER FUNCTIONS ====================
+        function groupByCategory(items) {
+            const grouped = {};
+            items.forEach(item => {
+                if (!grouped[item.category]) {
+                    grouped[item.category] = [];
                 }
+                grouped[item.category].push(item);
             });
-            
-            // Update HTML lang attribute
-            document.documentElement.lang = lang;
-            
-            // Store preference
-            localStorage.setItem('preferred-language', lang);
+            return grouped;
         }
 
-        // Load saved language preference
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('preferred-language');
-            if (savedLang && translations[savedLang]) {
-                const btn = document.querySelector(`.lang-btn[onclick*="${savedLang}"]`);
-                if (btn) btn.click();
+        function searchItems(query) {
+            if (!query) return knowledgeData;
+            const lowerQuery = query.toLowerCase();
+            return knowledgeData.filter(item => 
+                item.title.toLowerCase().includes(lowerQuery) || 
+                item.content.toLowerCase().includes(lowerQuery) ||
+                item.category.toLowerCase().includes(lowerQuery)
+            );
+        }
+
+        function getDifficultyBadge(difficulty) {
+            const colors = {
+                beginner: 'bg-green-500/10 text-green-400 border-green-500/20',
+                intermediate: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+                advanced: 'bg-red-500/10 text-red-400 border-red-500/20'
+            };
+            return `<span class="px-2 py-1 rounded-full border text-xs font-bold ${colors[difficulty] || colors.beginner}">${difficulty.toUpperCase()}</span>`;
+        }
+
+        // ==================== RENDERING FUNCTIONS ====================
+        
+        function renderSidebarContent() {
+            const sidebar = document.getElementById('sidebarContent');
+            
+            if (activeView === 'knowledge') {
+                const grouped = groupByCategory(knowledgeData);
+                sidebar.innerHTML = `
+                    <div class="mb-4">
+                        <div class="relative">
+                            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" style="width: 16px; height: 16px;"></i>
+                            <input 
+                                id="searchInput" 
+                                type="text" 
+                                placeholder="Search knowledge..." 
+                                class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-10 pr-4 py-2.5 text-sm text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all"
+                            />
+                        </div>
+                    </div>
+                    <div class="space-y-5">
+                        ${Object.entries(grouped).map(([category, items]) => `
+                            <div>
+                                <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-2">${category}</h3>
+                                <div class="space-y-1">
+                                    ${items.map(item => `
+                                        <button 
+                                            onclick="setActiveArticle('${item.id}')"
+                                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${
+                                                activeId === item.id 
+                                                    ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-blue-500/30 shadow-lg' 
+                                                    : 'text-slate-400 hover:bg-slate-800/70 hover:text-white'
+                                            }"
+                                        >
+                                            <i data-lucide="${item.icon}" class="${activeId === item.id ? 'text-blue-400' : 'text-slate-600 group-hover:text-blue-400'} transition-colors" style="width: 18px; height: 18px;"></i>
+                                            <span class="flex-1 text-left font-medium">${item.title}</span>
+                                            ${item.difficulty ? `<span class="text-[10px] opacity-60">${item.difficulty[0].toUpperCase()}</span>` : ''}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                // Add search listener
+                document.getElementById('searchInput')?.addEventListener('input', (e) => {
+                    searchQuery = e.target.value;
+                    renderSidebarContent();
+                });
+                
+            } else if (activeView === 'tools') {
+                sidebar.innerHTML = `
+                    <div class="space-y-2">
+                        ${toolsData.map(tool => `
+                            <button 
+                                onclick="setActiveTool('${tool.id}')"
+                                class="w-full p-4 rounded-xl text-left transition-all border border-slate-800 hover:border-blue-500/50 bg-gradient-to-br from-slate-900 to-slate-950 hover:from-slate-800 hover:to-slate-900 card-hover group"
+                            >
+                                <div class="flex items-start gap-3">
+                                    <div class="p-2 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
+                                        <i data-lucide="${tool.icon}" class="text-blue-400" style="width: 20px; height: 20px;"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-sm text-slate-200 mb-1">${tool.title}</h4>
+                                        <p class="text-xs text-slate-500">${tool.description}</p>
+                                    </div>
+                                </div>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (activeView === 'projects') {
+                sidebar.innerHTML = `
+                    <div class="space-y-3">
+                        ${projectsData.map(project => `
+                            <div class="p-4 rounded-xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950">
+                                <div class="flex items-start justify-between mb-2">
+                                    <span class="px-2 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-bold border border-purple-500/20">${project.category}</span>
+                                    <span class="text-xs ${project.status === 'Completed' ? 'text-green-400' : 'text-yellow-400'}">${project.status}</span>
+                                </div>
+                                <h4 class="font-semibold text-slate-200 mb-2">${project.title}</h4>
+                                <p class="text-xs text-slate-500 mb-3">${project.description}</p>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-slate-600">Difficulty:</span>
+                                    <span class="font-semibold text-slate-400">${project.difficulty}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (activeView === 'learning') {
+                sidebar.innerHTML = `
+                    <div class="space-y-3">
+                        ${learningPaths.map(path => `
+                            <div class="p-4 rounded-xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 card-hover">
+                                <div class="flex items-start justify-between mb-3">
+                                    <span class="px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold border border-blue-500/20">${path.level}</span>
+                                    <span class="text-xs text-slate-500">${path.duration}</span>
+                                </div>
+                                <h4 class="font-semibold text-slate-200 mb-2">${path.title}</h4>
+                                <p class="text-xs text-slate-500 mb-3">${path.topics} topics</p>
+                                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-full transition-all" style="width: ${path.progress}%"></div>
+                                </div>
+                                <p class="text-xs text-slate-600 mt-2 text-right">${path.progress}% complete</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (activeView === 'references') {
+                sidebar.innerHTML = `
+                    <div class="space-y-2">
+                        <a href="#" class="block p-3 rounded-lg border border-slate-800 hover:border-blue-500/50 transition-all bg-slate-900/50">
+                            <div class="flex items-center gap-2 text-sm font-semibold text-slate-300">
+                                <i data-lucide="book" style="width: 16px; height: 16px;"></i>
+                                <span>IEC Standards</span>
+                            </div>
+                        </a>
+                        <a href="#" class="block p-3 rounded-lg border border-slate-800 hover:border-blue-500/50 transition-all bg-slate-900/50">
+                            <div class="flex items-center gap-2 text-sm font-semibold text-slate-300">
+                                <i data-lucide="shield" style="width: 16px; height: 16px;"></i>
+                                <span>Danish Regulations</span>
+                            </div>
+                        </a>
+                        <a href="#" class="block p-3 rounded-lg border border-slate-800 hover:border-blue-500/50 transition-all bg-slate-900/50">
+                            <div class="flex items-center gap-2 text-sm font-semibold text-slate-300">
+                                <i data-lucide="calculator" style="width: 16px; height: 16px;"></i>
+                                <span>Formula Library</span>
+                            </div>
+                        </a>
+                        <a href="#" class="block p-3 rounded-lg border border-slate-800 hover:border-blue-500/50 transition-all bg-slate-900/50">
+                            <div class="flex items-center gap-2 text-sm font-semibold text-slate-300">
+                                <i data-lucide="database" style="width: 16px; height: 16px;"></i>
+                                <span>Component Database</span>
+                            </div>
+                        </a>
+                    </div>
+                `;
             }
+            
+            lucide.createIcons();
+        }
+
+        function renderBreadcrumbs() {
+            const breadcrumbs = document.getElementById('breadcrumbs');
+            
+            if (activeView === 'knowledge') {
+                const article = knowledgeData.find(item => item.id === activeId);
+                if (article) {
+                    breadcrumbs.innerHTML = `
+                        <span class="text-slate-500 hidden sm:inline">${article.category}</span>
+                        <i data-lucide="chevron-right" class="text-slate-700 hidden sm:block" style="width: 14px; height: 14px;"></i>
+                        <span class="text-white font-semibold">${article.title}</span>
+                        ${article.difficulty ? getDifficultyBadge(article.difficulty) : ''}
+                    `;
+                }
+            } else {
+                const titles = {
+                    tools: 'Engineering Tools',
+                    projects: 'Projects',
+                    learning: 'Learning Paths',
+                    references: 'References'
+                };
+                breadcrumbs.innerHTML = `<span class="text-white font-semibold">${titles[activeView]}</span>`;
+            }
+            
+            lucide.createIcons();
+        }
+
+        function renderArticle() {
+            const article = knowledgeData.find(item => item.id === activeId);
+            const content = document.getElementById('mainContent');
+            
+            content.innerHTML = `
+                <div class="animate-in">
+                    <!-- Enhanced Article Header -->
+                    <div class="mb-12 pb-8 border-b border-slate-800/50">
+                        <div class="flex items-start justify-between mb-8">
+                            <div class="flex items-start gap-6">
+                                <div class="gradient-border p-4 rounded-2xl">
+                                    <i data-lucide="${article.icon}" class="text-blue-400" style="width: 48px; height: 48px;"></i>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-400 text-xs font-bold border border-slate-700">${article.category}</span>
+                                        ${getDifficultyBadge(article.difficulty)}
+                                    </div>
+                                    <h1 class="text-5xl md:text-6xl font-black text-white tracking-tight mb-4" style="line-height: 1.1;">
+                                        ${article.title}
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap items-center gap-6 text-sm">
+                            <div class="flex items-center gap-2 text-slate-500">
+                                <i data-lucide="clock" class="text-blue-500" style="width: 16px; height: 16px;"></i>
+                                <span>Last updated: Today</span>
+                            </div>
+                            <div class="w-1 h-1 rounded-full bg-slate-700"></div>
+                            <div class="flex items-center gap-2 text-slate-500">
+                                <i data-lucide="book-open" style="width: 16px; height: 16px;"></i>
+                                <span>8 min read</span>
+                            </div>
+                            <div class="w-1 h-1 rounded-full bg-slate-700"></div>
+                            <button class="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+                                <i data-lucide="bookmark" style="width: 16px; height: 16px;"></i>
+                                <span>Bookmark</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Markdown Content -->
+                    <div class="markdown-content mb-20">
+                        ${marked.parse(article.content)}
+                    </div>
+                    
+                    <!-- Article Footer -->
+                    <div class="mt-12 p-6 bg-gradient-to-br from-amber-500/5 to-amber-500/0 border border-amber-500/20 rounded-2xl">
+                        <div class="flex items-start gap-4">
+                            <div class="p-3 bg-amber-500/10 rounded-xl shrink-0">
+                                <i data-lucide="alert-triangle" class="text-amber-500" style="width: 24px; height: 24px;"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-200 mb-2">Important Notice</h4>
+                                <p class="text-sm text-slate-400 leading-relaxed">
+                                    Always verify calculations and consult relevant standards (IEC, IEEE, national codes) before implementation. This content is for educational purposes and may contain simplified models not suitable for all production environments. When in doubt, consult a professional electrical engineer.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Related Topics -->
+                    <div class="mt-12">
+                        <h3 class="text-xl font-bold text-slate-200 mb-4">Related Topics</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${knowledgeData.slice(0, 4).filter(item => item.id !== activeId).slice(0, 2).map(related => `
+                                <button onclick="setActiveArticle('${related.id}')" class="p-4 rounded-xl border border-slate-800 hover:border-blue-500/50 bg-slate-900 hover:bg-slate-800 transition-all text-left group">
+                                    <div class="flex items-start gap-3">
+                                        <i data-lucide="${related.icon}" class="text-slate-600 group-hover:text-blue-400 transition-colors" style="width: 20px; height: 20px;"></i>
+                                        <div>
+                                            <h4 class="font-semibold text-slate-300 group-hover:text-white transition-colors mb-1">${related.title}</h4>
+                                            <p class="text-xs text-slate-600">${related.category}</p>
+                                        </div>
+                                    </div>
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            lucide.createIcons();
+        }
+
+        function renderTools() {
+            const content = document.getElementById('mainContent');
+            
+            content.innerHTML = `
+                <div class="animate-in">
+                    <div class="mb-12">
+                        <h1 class="text-4xl font-black text-white mb-4">Engineering Tools</h1>
+                        <p class="text-slate-400 text-lg">Professional calculators and design aids for electrical engineering</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Voltage Divider -->
+                        <div class="gradient-border p-6 rounded-2xl card-hover">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="p-3 bg-blue-500/10 rounded-xl">
+                                    <i data-lucide="activity" class="text-blue-400" style="width: 24px; height: 24px;"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white">Voltage Divider</h3>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">Input Voltage (V)</label>
+                                    <input type="number" id="vin" value="5" step="0.1" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all text-lg" />
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">R1 (Ω)</label>
+                                    <input type="number" id="r1" value="1000" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all text-lg" />
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">R2 (Ω)</label>
+                                    <input type="number" id="r2" value="2000" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all text-lg" />
+                                </div>
+                                <div class="pt-6 border-t border-slate-800">
+                                    <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">Output Voltage</label>
+                                    <div class="flex items-end gap-2">
+                                        <div id="vout" class="text-5xl font-black text-blue-400">3.33</div>
+                                        <div class="text-2xl text-slate-600 font-bold mb-1">V</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Power Calculator -->
+                        <div class="gradient-border p-6 rounded-2xl card-hover">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="p-3 bg-green-500/10 rounded-xl">
+                                    <i data-lucide="zap" class="text-green-400" style="width: 24px; height: 24px;"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white">Power Calculator</h3>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">Voltage (V)</label>
+                                    <input type="number" id="voltage" value="12" step="0.1" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-green-500/40 focus:border-green-500 transition-all text-lg" />
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">Resistance (Ω)</label>
+                                    <input type="number" id="resistance" value="220" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-green-500/40 focus:border-green-500 transition-all text-lg" />
+                                </div>
+                                <div class="pt-6 border-t border-slate-800 grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">Current</label>
+                                        <div class="flex items-end gap-1">
+                                            <div id="current" class="text-3xl font-black text-green-400">54.5</div>
+                                            <div class="text-lg text-slate-600 font-bold mb-0.5">mA</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">Power</label>
+                                        <div class="flex items-end gap-1">
+                                            <div id="power" class="text-3xl font-black text-green-400">0.65</div>
+                                            <div class="text-lg text-slate-600 font-bold mb-0.5">W</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cable Sizing Tool -->
+                        <div class="gradient-border p-6 rounded-2xl card-hover lg:col-span-2">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="p-3 bg-purple-500/10 rounded-xl">
+                                    <i data-lucide="cable" class="text-purple-400" style="width: 24px; height: 24px;"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white">Cable Sizing Calculator</h3>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">Current (A)</label>
+                                    <input type="number" id="cableCurrent" value="32" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500/40 transition-all" />
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">Length (m)</label>
+                                    <input type="number" id="cableLength" value="25" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500/40 transition-all" />
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500 uppercase font-bold mb-2 block">Voltage (V)</label>
+                                    <input type="number" id="cableVoltage" value="230" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500/40 transition-all" />
+                                </div>
+                            </div>
+                            <div class="mt-6 p-4 bg-slate-950 rounded-xl border border-slate-800">
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <div class="text-xs text-slate-500 uppercase font-bold mb-1">Recommended Size</div>
+                                        <div id="cableSize" class="text-3xl font-black text-purple-400">4 mm²</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-slate-500 uppercase font-bold mb-1">Voltage Drop</div>
+                                        <div id="voltageDrop" class="text-3xl font-black text-purple-400">2.8%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            lucide.createIcons();
+            
+            // Add calculator event listeners
+            ['vin', 'r1', 'r2'].forEach(id => {
+                document.getElementById(id)?.addEventListener('input', calculateVoltageDivider);
+            });
+            ['voltage', 'resistance'].forEach(id => {
+                document.getElementById(id)?.addEventListener('input', calculatePower);
+            });
+            ['cableCurrent', 'cableLength', 'cableVoltage'].forEach(id => {
+                document.getElementById(id)?.addEventListener('input', calculateCable);
+            });
+            
+            // Initial calculations
+            calculateVoltageDivider();
+            calculatePower();
+            calculateCable();
+        }
+
+        function renderProjects() {
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div class="animate-in">
+                    <div class="mb-12">
+                        <h1 class="text-4xl font-black text-white mb-4">Projects Portfolio</h1>
+                        <p class="text-slate-400 text-lg">Real-world electrical engineering projects and implementations</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${projectsData.map(project => `
+                            <div class="gradient-border p-6 rounded-2xl card-hover">
+                                <div class="flex items-start justify-between mb-4">
+                                    <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-bold border border-purple-500/20">${project.category}</span>
+                                    <span class="text-sm font-semibold ${project.status === 'Completed' ? 'text-green-400' : 'text-yellow-400'}">${project.status}</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white mb-3">${project.title}</h3>
+                                <p class="text-slate-400 mb-4">${project.description}</p>
+                                <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+                                    <span class="text-sm text-slate-500">Difficulty: <span class="text-slate-300 font-semibold">${project.difficulty}</span></span>
+                                    <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-bold transition-all">View Details</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderLearning() {
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div class="animate-in">
+                    <div class="mb-12">
+                        <h1 class="text-4xl font-black text-white mb-4">Learning Paths</h1>
+                        <p class="text-slate-400 text-lg">Structured curricula for electrical engineering mastery</p>
+                    </div>
+                    <div class="space-y-6">
+                        ${learningPaths.map(path => `
+                            <div class="gradient-border p-8 rounded-2xl card-hover">
+                                <div class="flex items-start justify-between mb-6">
+                                    <div>
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold border border-blue-500/20">${path.level}</span>
+                                            <span class="text-sm text-slate-500">${path.duration}</span>
+                                        </div>
+                                        <h3 class="text-3xl font-bold text-white mb-2">${path.title}</h3>
+                                        <p class="text-slate-400">${path.topics} comprehensive topics</p>
+                                    </div>
+                                    <button class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg text-white rounded-xl font-bold transition-all">Start Learning</button>
+                                </div>
+                                <div class="w-full bg-slate-900 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-full transition-all" style="width: ${path.progress}%"></div>
+                                </div>
+                                <div class="flex items-center justify-between mt-3">
+                                    <span class="text-sm text-slate-500">${path.progress}% complete</span>
+                                    <span class="text-sm text-slate-400 font-semibold">${path.progress === 0 ? 'Not started' : 'In progress'}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderReferences() {
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div class="animate-in">
+                    <div class="mb-12">
+                        <h1 class="text-4xl font-black text-white mb-4">Reference Library</h1>
+                        <p class="text-slate-400 text-lg">Standards, regulations, formulas, and quick lookup tables</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="gradient-border p-6 rounded-2xl card-hover">
+                            <i data-lucide="shield" class="text-blue-400 mb-4" style="width: 32px; height: 32px;"></i>
+                            <h3 class="text-xl font-bold text-white mb-2">IEC Standards</h3>
+                            <p class="text-sm text-slate-400 mb-4">International electrotechnical standards and regulations</p>
+                            <button class="text-blue-400 text-sm font-semibold hover:text-blue-300 transition-colors">Browse →</button>
+                        </div>
+                        <div class="gradient-border p-6 rounded-2xl card-hover">
+                            <i data-lucide="book" class="text-green-400 mb-4" style="width: 32px; height: 32px;"></i>
+                            <h3 class="text-xl font-bold text-white mb-2">Danish Regulations</h3>
+                            <p class="text-sm text-slate-400 mb-4">DS/HD 60364 and national electrical codes</p>
+                            <button class="text-green-400 text-sm font-semibold hover:text-green-300 transition-colors">Browse →</button>
+                        </div>
+                        <div class="gradient-border p-6 rounded-2xl card-hover">
+                            <i data-lucide="calculator" class="text-purple-400 mb-4" style="width: 32px; height: 32px;"></i>
+                            <h3 class="text-xl font-bold text-white mb-2">Formula Library</h3>
+                            <p class="text-sm text-slate-400 mb-4">Quick reference for essential electrical formulas</p>
+                            <button class="text-purple-400 text-sm font-semibold hover:text-purple-300 transition-colors">Browse →</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // ==================== CALCULATOR FUNCTIONS ====================
+        
+        function calculateVoltageDivider() {
+            const vin = parseFloat(document.getElementById('vin')?.value) || 0;
+            const r1 = parseFloat(document.getElementById('r1')?.value) || 1;
+            const r2 = parseFloat(document.getElementById('r2')?.value) || 1;
+            const vout = (vin * (r2 / (r1 + r2))).toFixed(2);
+            if (document.getElementById('vout')) {
+                document.getElementById('vout').textContent = vout;
+            }
+        }
+
+        function calculatePower() {
+            const v = parseFloat(document.getElementById('voltage')?.value) || 0;
+            const r = parseFloat(document.getElementById('resistance')?.value) || 1;
+            const current = ((v / r) * 1000).toFixed(1); // mA
+            const power = ((v * v) / r).toFixed(2);
+            if (document.getElementById('current')) {
+                document.getElementById('current').textContent = current;
+            }
+            if (document.getElementById('power')) {
+                document.getElementById('power').textContent = power;
+            }
+        }
+
+        function calculateCable() {
+            const current = parseFloat(document.getElementById('cableCurrent')?.value) || 0;
+            const length = parseFloat(document.getElementById('cableLength')?.value) || 0;
+            const voltage = parseFloat(document.getElementById('cableVoltage')?.value) || 230;
+            
+            // Simplified cable sizing
+            let cableSize = '1.5 mm²';
+            if (current > 16) cableSize = '2.5 mm²';
+            if (current > 20) cableSize = '4 mm²';
+            if (current > 25) cableSize = '6 mm²';
+            if (current > 32) cableSize = '10 mm²';
+            if (current > 40) cableSize = '16 mm²';
+            
+            // Voltage drop calculation (simplified)
+            const resistance = 0.0175; // Ohm*mm²/m for copper
+            const area = parseFloat(cableSize);
+            const drop = (2 * current * length * resistance / area);
+            const dropPercent = ((drop / voltage) * 100).toFixed(1);
+            
+            if (document.getElementById('cableSize')) {
+                document.getElementById('cableSize').textContent = cableSize;
+            }
+            if (document.getElementById('voltageDrop')) {
+                document.getElementById('voltageDrop').textContent = dropPercent + '%';
+            }
+        }
+
+        // ==================== EVENT HANDLERS ====================
+        
+        function setActiveArticle(id) {
+            activeId = id;
+            activeView = 'knowledge';
+            if (window.innerWidth < 768) closeSidebar();
+            updateActiveTab('knowledgeTab');
+            render();
+        }
+
+        function setActiveTool(id) {
+            // Tool selection logic
+            render();
+        }
+
+        function setActiveView(view) {
+            activeView = view;
+            render();
+        }
+
+        function updateActiveTab(tabId) {
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active', 'bg-gradient-to-r', 'from-blue-500/20', 'to-purple-500/20', 'text-white', 'border', 'border-blue-500/30', 'shadow-lg');
+                tab.classList.add('text-slate-400', 'hover:bg-slate-800');
+            });
+            
+            const activeTab = document.getElementById(tabId);
+            if (activeTab) {
+                activeTab.classList.remove('text-slate-400', 'hover:bg-slate-800');
+                activeTab.classList.add('active', 'bg-gradient-to-r', 'from-blue-500/20', 'to-purple-500/20', 'text-white', 'border', 'border-blue-500/30', 'shadow-lg');
+            }
+        }
+
+        function toggleSidebar() {
+            isSidebarOpen = !isSidebarOpen;
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            if (isSidebarOpen) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function closeSidebar() {
+            isSidebarOpen = false;
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('overlay').classList.add('hidden');
+        }
+
+        function render() {
+            renderSidebarContent();
+            renderBreadcrumbs();
+            
+            switch(activeView) {
+                case 'knowledge':
+                    renderArticle();
+                    break;
+                case 'tools':
+                    renderTools();
+                    break;
+                case 'projects':
+                    renderProjects();
+                    break;
+                case 'learning':
+                    renderLearning();
+                    break;
+                case 'references':
+                    renderReferences();
+                    break;
+            }
+        }
+
+        // ==================== INITIALIZATION ====================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tab navigation
+            document.getElementById('knowledgeTab').addEventListener('click', () => {
+                setActiveView('knowledge');
+                updateActiveTab('knowledgeTab');
+            });
+            document.getElementById('toolsTab').addEventListener('click', () => {
+                setActiveView('tools');
+                updateActiveTab('toolsTab');
+            });
+            document.getElementById('projectsTab').addEventListener('click', () => {
+                setActiveView('projects');
+                updateActiveTab('projectsTab');
+            });
+            document.getElementById('learningTab').addEventListener('click', () => {
+                setActiveView('learning');
+                updateActiveTab('learningTab');
+            });
+            document.getElementById('referencesTab').addEventListener('click', () => {
+                setActiveView('references');
+                updateActiveTab('referencesTab');
+            });
+            
+            // Sidebar toggle
+            document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
+            document.getElementById('closeSidebar').addEventListener('click', closeSidebar);
+            document.getElementById('overlay').addEventListener('click', closeSidebar);
+            
+            // Initial render
+            render();
         });
     </script>
+
 </body>
 </html>
